@@ -10,10 +10,11 @@ awgnChan = comm.AWGNChannel('BitsPerSymbol', 4, 'EbNo', 10); %create awgn channe
 
 txfilter = comm.RaisedCosineTransmitFilter(); %tx srrc
 rxfilter = comm.RaisedCosineReceiveFilter(); %rx srrc
-LO = dsp.SineWave("Frequency", 1.5e9, "ComplexOutput", true, "SampleRate", (1e-6)/8, "SamplesPerFrame", 8*nb); 
-y = LO(); %up conversion
+
 
 for nb = [5000, 10000, 50000]
+    LO = dsp.SineWave("Frequency", 1.5e9, "ComplexOutput", true, "SampleRate", (1e-6)/8, "SamplesPerFrame", 8*nb); 
+    y = LO(); %up conversion
     msg = randi([0 sum(M)-1], nb, 1);
     symbols = dvbsapskmod(msg, M, 's2x'); 
     txfilterData = txfilter(symbols); 
