@@ -1,14 +1,12 @@
 %Generate testing data, similar to above code but only one sequence of
 %integers are generated 
-
-awgnChan = comm.AWGNChannel('BitsPerSymbol', 4, 'EbNo', 10); %create awgn channel object
 M=16;
 window = 4;
 
 %communication things 
 constDiagram = comm.ConstellationDiagram('SamplesPerSymbol',1, ...
     'SymbolsToDisplaySource','Property','SymbolsToDisplay',100);
-awgnChan = comm.AWGNChannel('BitsPerSymbol', 4, 'EbNo', EbNo); %create awgn channel object
+awgnChan = comm.AWGNChannel('BitsPerSymbol', 4, 'EbNo', 10); %create awgn channel object
 
 txfilter = comm.RaisedCosineTransmitFilter(); %tx srrc
 rxfilter = comm.RaisedCosineReceiveFilter(); %rx srrc
