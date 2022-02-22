@@ -1,9 +1,20 @@
 %Generate testing data, similar to above code but only one sequence of
-%integers are generated. 
- 
+%integers are generated 
+
 awgnChan = comm.AWGNChannel('BitsPerSymbol', 4, 'EbNo', 10); %create awgn channel object
 M=16;
 window = 4;
+
+%communication things 
+constDiagram = comm.ConstellationDiagram('SamplesPerSymbol',1, ...
+    'SymbolsToDisplaySource','Property','SymbolsToDisplay',100);
+awgnChan = comm.AWGNChannel('BitsPerSymbol', 4, 'EbNo', EbNo); %create awgn channel object
+
+txfilter = comm.RaisedCosineTransmitFilter(); %tx srrc
+rxfilter = comm.RaisedCosineReceiveFilter(); %rx srrc
+LO = dsp.SineWave("Frequency", 1.5e9, "ComplexOutput", true, "SampleRate", (1e-6)/8, "SamplesPerFrame", 8*nb); 
+y = LO(); %up conversion
+
 for nb = [5000, 10000, 50000]
     msg = randi([0 sum(M)-1], nb, 1);
     symbols = dvbsapskmod(msg, M, 's2x'); 
@@ -27,6 +38,6 @@ for nb = [5000, 10000, 50000]
     
     train_data = train_data'; 
     
-    filename_test = 'DVBSAPSK_pred_SRRC_10k'; 
+    filename_test = sprintf('DVBSAPSK_pred_SRRC_%dpck', nb); 
     save(filename_test, 'train_data', 'target'); 
 end 
